@@ -86,6 +86,3 @@ class Calculator:
         self.window.mainloop()
 
 Calculator()
-
-# while True:
-#     print(eval(input()))
