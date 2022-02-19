@@ -1,7 +1,15 @@
 from tkinter import *
-
+from math import sqrt
 
 class Calculator:
+
+    btns = (
+            (),  # Для того, чтобы поместить поле ввода на строку 0
+            ('7', '8', '9', '-', '*', '(',),
+            ('4', '5', '6', '+', '/', ')',),
+            ('1', '2', '3', '=', '%', 'sqrt',),
+            ('0', '.', 'x^2', '1/x', 'C', 'Del',),
+    )
 
     def logic(self, btn: str) -> None:
         '''Управяет логикой кнопок'''
@@ -19,7 +27,7 @@ class Calculator:
                 answer = eval(self.input.get())
                 self.input.delete(0, END)
                 self.input.insert(END, f'{answer}')
-            elif btn == '^2':
+            elif btn == 'x^2':
                 self.input.insert(END, '**2')
             elif btn == 'sqrt':
                 self.input.insert(END, 'sqrt(')
@@ -31,23 +39,9 @@ class Calculator:
         
         except (SyntaxError, NameError, TypeError):
             self.input.delete(0, END)
-
-    def __init__(self):
-        self.window = Tk()
-        self.window.title('Calculator')
-        self.window.iconbitmap('./icon.ico')
-        self.window.geometry('492x438')
-        self.window.configure(background='#cce2e7')
-        self.window.resizable(width=False, height=False)
-
-        self.btns = (
-            (),  # Для того, чтобы поместить поле ввода на строку 0
-            ('7', '8', '9', '-', '*', '(',),
-            ('4', '5', '6', '+', '/', ')',),
-            ('1', '2', '3', '=', '%', 'sqrt',),
-            ('0', '.', 'x^2', '1/x', 'C', 'Del',),
-        )
-
+    
+    def pack_entry(self):
+        '''Добавляет на 0 строку поле ввода'''
         self.input = Entry(
             textvariable=StringVar(),
             width=25,
@@ -63,7 +57,9 @@ class Calculator:
             columnspan=6,
             ipady=30,
         )
-        # Добавление кнопок на окно
+
+    def pack_buttons(self):
+        '''Добавление кнопок на окно'''
         for row in range(1, len(self.btns)):
             for column in range(len(self.btns[row])):
                 name_btn = self.btns[row][column]
@@ -82,6 +78,18 @@ class Calculator:
                     row=row,
                     column=column
                 )
+
+    def __init__(self):
+        
+        self.window = Tk()
+        self.window.title('Calculator')
+        self.window.iconbitmap('./icon.ico')
+        self.window.geometry('492x438')
+        self.window.configure(background='#cce2e7')
+        self.window.resizable(width=False, height=False)
+
+        self.pack_entry()
+        self.pack_buttons()
 
         self.window.mainloop()
 
